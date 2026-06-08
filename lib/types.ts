@@ -1,0 +1,31 @@
+export type PaymentType = "monthly_fee" | "one_time";
+
+export interface Child {
+  id: string;
+  name: string;
+  age: number | null;
+  city: string | null;
+  school_name: string | null;
+  monthly_fee: number;
+  created_at: string;
+}
+
+export interface Payment {
+  id: string;
+  child_id: string;
+  amount: number;
+  payment_type: PaymentType;
+  one_time_category: string | null;
+  payment_date: string;
+  notes: string | null;
+  created_at: string;
+}
+
+export interface Donation {
+  id: string;
+  donor_name: string | null;
+  amount: number;
+  donation_date: string;
+  notes: string | null;
+  created_at: string;
+}
