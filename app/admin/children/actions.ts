@@ -4,14 +4,28 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
+function num(formData: FormData, key: string) {
+  return parseFloat((formData.get(key) as string) || "0") || 0;
+}
+
+function text(formData: FormData, key: string) {
+  return ((formData.get(key) as string) ?? "").trim() || null;
+}
+
 function parseChild(formData: FormData) {
   const ageRaw = (formData.get("age") as string)?.trim();
   return {
     name: ((formData.get("name") as string) ?? "").trim(),
     age: ageRaw ? parseInt(ageRaw, 10) : null,
-    city: ((formData.get("city") as string) ?? "").trim() || null,
-    school_name: ((formData.get("school_name") as string) ?? "").trim() || null,
-    monthly_fee: parseFloat((formData.get("monthly_fee") as string) || "0") || 0,
+    city: text(formData, "city"),
+    school_name: text(formData, "school_name"),
+    monthly_fee: num(formData, "monthly_fee"),
+    reason: text(formData, "reason"),
+    books_cost: num(formData, "books_cost"),
+    clothes_cost: num(formData, "clothes_cost"),
+    transport_cost: num(formData, "transport_cost"),
+    guardian_contact: text(formData, "guardian_contact"),
+    notes: text(formData, "notes"),
   };
 }
 
