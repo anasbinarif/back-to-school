@@ -20,13 +20,19 @@ end$$;
 -- children
 -- ----------------------------------------------------------------------------
 create table if not exists public.children (
-  id           uuid primary key default gen_random_uuid(),
-  name         text not null,
-  age          int,
-  city         text,
-  school_name  text,
-  monthly_fee  numeric not null default 0,
-  created_at   timestamptz not null default now()
+  id               uuid primary key default gen_random_uuid(),
+  name             text not null,
+  age              int,
+  city             text,
+  school_name      text,
+  monthly_fee      numeric not null default 0,
+  reason           text,          -- why the family cannot afford schooling
+  books_cost       numeric not null default 0,
+  clothes_cost     numeric not null default 0,
+  transport_cost   numeric not null default 0,
+  guardian_contact text,          -- guardian phone number (admin-only)
+  notes            text,          -- internal admin notes (admin-only)
+  created_at       timestamptz not null default now()
 );
 
 -- ----------------------------------------------------------------------------

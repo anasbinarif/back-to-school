@@ -7,6 +7,12 @@ export interface Child {
   city: string | null;
   school_name: string | null;
   monthly_fee: number;
+  reason: string | null;
+  books_cost: number;
+  clothes_cost: number;
+  transport_cost: number;
+  guardian_contact: string | null;
+  notes: string | null;
   created_at: string;
 }
 

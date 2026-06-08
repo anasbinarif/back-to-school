@@ -40,6 +40,35 @@ export default function ChildCard({ child, payments }: ChildCardProps) {
             </p>
           </div>
         </div>
+
+        {child.reason && (
+          <p className="mt-3 text-sm text-gray-600">{child.reason}</p>
+        )}
+
+        {(toNumber(child.books_cost) > 0 ||
+          toNumber(child.clothes_cost) > 0 ||
+          toNumber(child.transport_cost) > 0) && (
+          <dl className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+            {toNumber(child.books_cost) > 0 && (
+              <div className="flex gap-1.5">
+                <dt className="text-gray-400">Books</dt>
+                <dd className="font-medium text-gray-700">{formatCurrency(child.books_cost)}</dd>
+              </div>
+            )}
+            {toNumber(child.clothes_cost) > 0 && (
+              <div className="flex gap-1.5">
+                <dt className="text-gray-400">Clothes</dt>
+                <dd className="font-medium text-gray-700">{formatCurrency(child.clothes_cost)}</dd>
+              </div>
+            )}
+            {toNumber(child.transport_cost) > 0 && (
+              <div className="flex gap-1.5">
+                <dt className="text-gray-400">Transport</dt>
+                <dd className="font-medium text-gray-700">{formatCurrency(child.transport_cost)}</dd>
+              </div>
+            )}
+          </dl>
+        )}
       </div>
 
       <div className="p-5">
