@@ -57,10 +57,10 @@ export default async function DonationsPage() {
                       {formatCurrency(d.amount)}
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <form action={deleteDonation}>
-                        <input type="hidden" name="id" value={d.id} />
-                        <DeleteButton confirmText="Delete this donation?" />
-                      </form>
+                      <DeleteButton
+                        action={deleteDonation.bind(null, d.id)}
+                        confirmText="Delete this donation?"
+                      />
                     </td>
                   </tr>
                 ))}

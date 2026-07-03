@@ -35,7 +35,13 @@ export default async function EditChildPage({
       </div>
 
       <section className="rounded-lg border border-gray-200 bg-white p-5">
-        <ChildForm action={action} child={child} submitLabel="Save changes" showCancel />
+        <ChildForm
+          action={action}
+          child={child}
+          submitLabel="Save changes"
+          showCancel
+          redirectTo="/admin/children"
+        />
       </section>
     </div>
   );
