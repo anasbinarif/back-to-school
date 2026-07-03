@@ -25,6 +25,7 @@ create table if not exists public.children (
   age              int,
   city             text,
   school_name      text,
+  class_name       text,          -- class / grade, e.g. "5", "KG", "Matric"
   monthly_fee      numeric not null default 0,
   reason           text,          -- why the family cannot afford schooling
   books_cost       numeric not null default 0,
