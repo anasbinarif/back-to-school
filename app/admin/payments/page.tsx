@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { formatCurrency, formatDate } from "@/lib/format";
 import PaymentForm from "@/components/PaymentForm";
@@ -74,10 +75,18 @@ export default async function PaymentsPage() {
                       {formatCurrency(p.amount)}
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <DeleteButton
-                        action={deletePayment.bind(null, p.id)}
-                        confirmText="Delete this payment?"
-                      />
+                      <div className="flex items-center justify-end gap-4">
+                        <Link
+                          href={`/admin/payments/${p.id}/edit`}
+                          className="text-sm font-medium text-blue-600 hover:text-blue-700"
+                        >
+                          Edit
+                        </Link>
+                        <DeleteButton
+                          action={deletePayment.bind(null, p.id)}
+                          confirmText="Delete this payment?"
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}

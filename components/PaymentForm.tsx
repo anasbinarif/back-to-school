@@ -1,30 +1,52 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createPayment } from "@/app/admin/payments/actions";
 import { useToast } from "@/components/Toast";
-import type { Child } from "@/lib/types";
+import type { ActionResult, Child, Payment } from "@/lib/types";
 
 const inputClass =
   "mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500";
 
-export default function PaymentForm({ children }: { children: Child[] }) {
+// Handles both logging a new payment and editing an existing one.
+// - create: no `payment`, uses createPayment, resets on success.
+// - edit: pass `payment` + a bound `action` + `redirectTo`; navigates on success.
+export default function PaymentForm({
+  children,
+  payment,
+  action = createPayment,
+  submitLabel = "Log payment",
+  redirectTo,
+}: {
+  children: Child[];
+  payment?: Payment;
+  action?: (formData: FormData) => Promise<ActionResult>;
+  submitLabel?: string;
+  redirectTo?: string;
+}) {
   const router = useRouter();
   const toast = useToast();
   const formRef = useRef<HTMLFormElement>(null);
-  const [paymentType, setPaymentType] = useState<"monthly_fee" | "one_time">("monthly_fee");
+  const [paymentType, setPaymentType] = useState<"monthly_fee" | "one_time">(
+    payment?.payment_type ?? "monthly_fee"
+  );
   const today = new Date().toISOString().slice(0, 10);
 
   async function handleSubmit(formData: FormData) {
     try {
-      const res = await createPayment(formData);
+      const res = await action(formData);
       if (res.ok) {
-        toast("success", res.message ?? "Payment logged.");
-        formRef.current?.reset();
-        // Reset the type back to default; router.refresh re-renders the log.
-        setPaymentType("monthly_fee");
-        router.refresh();
+        toast("success", res.message ?? "Saved.");
+        if (redirectTo) {
+          router.push(redirectTo);
+        } else {
+          formRef.current?.reset();
+          // Reset the type back to default; router.refresh re-renders the log.
+          setPaymentType("monthly_fee");
+          router.refresh();
+        }
       } else {
         toast("error", res.message ?? "Something went wrong.");
       }
@@ -47,7 +69,13 @@ export default function PaymentForm({ children }: { children: Child[] }) {
         <label htmlFor="child_id" className="block text-sm font-medium text-gray-700">
           Child <span className="text-red-500">*</span>
         </label>
-        <select id="child_id" name="child_id" required className={inputClass}>
+        <select
+          id="child_id"
+          name="child_id"
+          required
+          defaultValue={payment?.child_id ?? ""}
+          className={inputClass}
+        >
           {children.map((c) => (
             <option key={c.id} value={c.id}>
               {c.name}
@@ -84,6 +112,7 @@ export default function PaymentForm({ children }: { children: Child[] }) {
           min="0"
           step="0.01"
           required
+          defaultValue={payment?.amount ?? ""}
           className={inputClass}
         />
       </div>
@@ -100,6 +129,7 @@ export default function PaymentForm({ children }: { children: Child[] }) {
             id="one_time_category"
             name="one_time_category"
             placeholder="uniform, books, admission…"
+            defaultValue={payment?.one_time_category ?? ""}
             className={inputClass}
           />
         </div>
@@ -114,7 +144,7 @@ export default function PaymentForm({ children }: { children: Child[] }) {
           name="payment_date"
           type="date"
           required
-          defaultValue={today}
+          defaultValue={payment?.payment_date ?? today}
           className={inputClass}
         />
       </div>
@@ -123,16 +153,30 @@ export default function PaymentForm({ children }: { children: Child[] }) {
         <label htmlFor="notes" className="block text-sm font-medium text-gray-700">
           Notes
         </label>
-        <textarea id="notes" name="notes" rows={2} className={inputClass} />
+        <textarea
+          id="notes"
+          name="notes"
+          rows={2}
+          defaultValue={payment?.notes ?? ""}
+          className={inputClass}
+        />
       </div>
 
-      <div className="sm:col-span-2">
+      <div className="flex items-center gap-3 sm:col-span-2">
         <button
           type="submit"
           className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
         >
-          Log payment
+          {submitLabel}
         </button>
+        {redirectTo && (
+          <Link
+            href={redirectTo}
+            className="text-sm font-medium text-gray-500 hover:text-gray-700"
+          >
+            Cancel
+          </Link>
+        )}
       </div>
     </form>
   );
