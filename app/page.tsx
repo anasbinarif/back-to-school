@@ -23,13 +23,6 @@ export default async function HomePage() {
 
   const loadError = childrenRes.error || paymentsRes.error || donationsRes.error;
 
-  // Diagnostic details — surfaced in the error banner so misconfiguration is
-  // easy to pin down (env vars vs. RLS/schema). Shows no secret values.
-  const envPresent = {
-    url: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
-    anonKey: Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
-  };
-
   const totalDonated = donations.reduce((sum, d) => sum + toNumber(d.amount), 0);
   const totalSpent = payments.reduce((sum, p) => sum + toNumber(p.amount), 0);
 
@@ -59,17 +52,7 @@ export default async function HomePage() {
 
       {loadError ? (
         <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-          <p className="font-medium">Unable to load data.</p>
-          <ul className="mt-2 list-inside list-disc space-y-1 text-amber-700">
-            <li>NEXT_PUBLIC_SUPABASE_URL present: {String(envPresent.url)}</li>
-            <li>NEXT_PUBLIC_SUPABASE_ANON_KEY present: {String(envPresent.anonKey)}</li>
-            <li>Supabase error: {loadError.message || "(none)"}</li>
-          </ul>
-          <p className="mt-2 text-xs text-amber-600">
-            If both env vars are <code>false</code>, redeploy after setting them. If they are{" "}
-            <code>true</code> but there is a permission/relation error, run{" "}
-            <code>supabase/schema.sql</code> in the Supabase SQL Editor.
-          </p>
+          Data is temporarily unavailable. Please check back shortly.
         </div>
       ) : (
         <>
