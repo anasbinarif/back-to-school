@@ -1,21 +1,56 @@
-import Link from "next/link";
-import type { Child } from "@/lib/types";
+"use client";
 
-// Server-rendered form used for both creating and editing a child.
-// `action` is a server action bound by the caller.
+import { useRef } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/Toast";
+import type { ActionResult, Child } from "@/lib/types";
+
+// Form used for both creating and editing a child. `action` is a server action
+// bound by the caller. On success it toasts and either resets (create) or
+// navigates to `redirectTo` (edit).
 export default function ChildForm({
   action,
   child,
   submitLabel,
   showCancel = false,
+  redirectTo,
 }: {
-  action: (formData: FormData) => void | Promise<void>;
+  action: (formData: FormData) => Promise<ActionResult>;
   child?: Child;
   submitLabel: string;
   showCancel?: boolean;
+  redirectTo?: string;
 }) {
+  const router = useRouter();
+  const toast = useToast();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  async function handleSubmit(formData: FormData) {
+    try {
+      const res = await action(formData);
+      if (res.ok) {
+        toast("success", res.message ?? "Saved.");
+        if (redirectTo) {
+          router.push(redirectTo);
+        } else {
+          formRef.current?.reset();
+          router.refresh();
+        }
+      } else {
+        toast("error", res.message ?? "Something went wrong.");
+      }
+    } catch {
+      toast("error", "Something went wrong. Please try again.");
+    }
+  }
+
   return (
-    <form action={action} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <form
+      ref={formRef}
+      action={handleSubmit}
+      className="grid grid-cols-1 gap-4 sm:grid-cols-2"
+    >
       <div className="sm:col-span-2">
         <label htmlFor="name" className="block text-sm font-medium text-gray-700">
           Name <span className="text-red-500">*</span>

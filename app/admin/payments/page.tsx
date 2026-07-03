@@ -74,10 +74,10 @@ export default async function PaymentsPage() {
                       {formatCurrency(p.amount)}
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <form action={deletePayment}>
-                        <input type="hidden" name="id" value={p.id} />
-                        <DeleteButton confirmText="Delete this payment?" />
-                      </form>
+                      <DeleteButton
+                        action={deletePayment.bind(null, p.id)}
+                        confirmText="Delete this payment?"
+                      />
                     </td>
                   </tr>
                 ))}

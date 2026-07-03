@@ -3,19 +3,30 @@
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createDonation } from "@/app/admin/donations/actions";
+import { useToast } from "@/components/Toast";
 
 const inputClass =
   "mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500";
 
 export default function DonationForm() {
   const router = useRouter();
+  const toast = useToast();
   const formRef = useRef<HTMLFormElement>(null);
   const today = new Date().toISOString().slice(0, 10);
 
   async function handleSubmit(formData: FormData) {
-    await createDonation(formData);
-    formRef.current?.reset();
-    router.refresh();
+    try {
+      const res = await createDonation(formData);
+      if (res.ok) {
+        toast("success", res.message ?? "Donation logged.");
+        formRef.current?.reset();
+        router.refresh();
+      } else {
+        toast("error", res.message ?? "Something went wrong.");
+      }
+    } catch {
+      toast("error", "Something went wrong. Please try again.");
+    }
   }
 
   return (

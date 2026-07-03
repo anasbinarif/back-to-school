@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createPayment } from "@/app/admin/payments/actions";
+import { useToast } from "@/components/Toast";
 import type { Child } from "@/lib/types";
 
 const inputClass =
@@ -10,14 +11,26 @@ const inputClass =
 
 export default function PaymentForm({ children }: { children: Child[] }) {
   const router = useRouter();
+  const toast = useToast();
+  const formRef = useRef<HTMLFormElement>(null);
   const [paymentType, setPaymentType] = useState<"monthly_fee" | "one_time">("monthly_fee");
   const today = new Date().toISOString().slice(0, 10);
 
   async function handleSubmit(formData: FormData) {
-    await createPayment(formData);
-    // Reset the type back to default; router.refresh re-renders the log.
-    setPaymentType("monthly_fee");
-    router.refresh();
+    try {
+      const res = await createPayment(formData);
+      if (res.ok) {
+        toast("success", res.message ?? "Payment logged.");
+        formRef.current?.reset();
+        // Reset the type back to default; router.refresh re-renders the log.
+        setPaymentType("monthly_fee");
+        router.refresh();
+      } else {
+        toast("error", res.message ?? "Something went wrong.");
+      }
+    } catch {
+      toast("error", "Something went wrong. Please try again.");
+    }
   }
 
   if (children.length === 0) {
@@ -29,7 +42,7 @@ export default function PaymentForm({ children }: { children: Child[] }) {
   }
 
   return (
-    <form action={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <form ref={formRef} action={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div className="sm:col-span-2">
         <label htmlFor="child_id" className="block text-sm font-medium text-gray-700">
           Child <span className="text-red-500">*</span>

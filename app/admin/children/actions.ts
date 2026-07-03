@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import type { ActionResult } from "@/lib/types";
 
 function num(formData: FormData, key: string) {
   return parseFloat((formData.get(key) as string) || "0") || 0;
@@ -30,40 +30,44 @@ function parseChild(formData: FormData) {
   };
 }
 
-export async function createChild(formData: FormData) {
-  const supabase = createClient();
+export async function createChild(formData: FormData): Promise<ActionResult> {
   const child = parseChild(formData);
-  if (!child.name) return;
+  if (!child.name) return { ok: false, message: "Name is required." };
 
+  const supabase = createClient();
   const { error } = await supabase.from("children").insert(child);
-  if (error) throw new Error(error.message);
+  if (error) return { ok: false, message: error.message };
 
   revalidatePath("/admin/children");
   revalidatePath("/");
+  return { ok: true, message: `${child.name} added.` };
 }
 
-export async function updateChild(id: string, formData: FormData) {
-  const supabase = createClient();
+export async function updateChild(
+  id: string,
+  formData: FormData
+): Promise<ActionResult> {
   const child = parseChild(formData);
-  if (!child.name) return;
+  if (!child.name) return { ok: false, message: "Name is required." };
 
+  const supabase = createClient();
   const { error } = await supabase.from("children").update(child).eq("id", id);
-  if (error) throw new Error(error.message);
+  if (error) return { ok: false, message: error.message };
 
   revalidatePath("/admin/children");
   revalidatePath("/");
-  redirect("/admin/children");
+  return { ok: true, message: "Changes saved." };
 }
 
-export async function deleteChild(formData: FormData) {
-  const supabase = createClient();
-  const id = formData.get("id") as string;
-  if (!id) return;
+export async function deleteChild(id: string): Promise<ActionResult> {
+  if (!id) return { ok: false, message: "Missing child id." };
 
+  const supabase = createClient();
   // Payments are removed automatically via ON DELETE CASCADE.
   const { error } = await supabase.from("children").delete().eq("id", id);
-  if (error) throw new Error(error.message);
+  if (error) return { ok: false, message: error.message };
 
   revalidatePath("/admin/children");
   revalidatePath("/");
+  return { ok: true, message: "Child deleted." };
 }

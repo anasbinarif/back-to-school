@@ -1,5 +1,8 @@
 export type PaymentType = "monthly_fee" | "one_time";
 
+// Result returned by admin server actions so the client can show a toast.
+export type ActionResult = { ok: boolean; message?: string };
+
 export interface Child {
   id: string;
   name: string;

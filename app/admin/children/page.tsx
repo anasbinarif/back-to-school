@@ -69,10 +69,10 @@ export default async function ChildrenPage() {
                         >
                           Edit
                         </Link>
-                        <form action={deleteChild}>
-                          <input type="hidden" name="id" value={c.id} />
-                          <DeleteButton confirmText={`Delete ${c.name}? This also removes their payment history.`} />
-                        </form>
+                        <DeleteButton
+                          action={deleteChild.bind(null, c.id)}
+                          confirmText={`Delete ${c.name}? This also removes their payment history.`}
+                        />
                       </div>
                     </td>
                   </tr>
