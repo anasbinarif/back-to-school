@@ -83,6 +83,19 @@ export default function ChildForm({
       </div>
 
       <div>
+        <label htmlFor="class_name" className="block text-sm font-medium text-gray-700">
+          Class
+        </label>
+        <input
+          id="class_name"
+          name="class_name"
+          placeholder="e.g. 5, KG, Matric"
+          defaultValue={child?.class_name ?? ""}
+          className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        />
+      </div>
+
+      <div>
         <label htmlFor="guardian_contact" className="block text-sm font-medium text-gray-700">
           Guardian contact number
         </label>

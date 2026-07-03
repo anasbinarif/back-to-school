@@ -19,6 +19,7 @@ function parseChild(formData: FormData) {
     age: ageRaw ? parseInt(ageRaw, 10) : null,
     city: text(formData, "city"),
     school_name: text(formData, "school_name"),
+    class_name: text(formData, "class_name"),
     monthly_fee: num(formData, "monthly_fee"),
     reason: text(formData, "reason"),
     books_cost: num(formData, "books_cost"),

@@ -26,6 +26,7 @@ export default function ChildCard({ child, payments }: ChildCardProps) {
             <p className="mt-0.5 text-sm text-gray-500">
               {[
                 child.age != null ? `Age ${child.age}` : null,
+                child.class_name ? `Class ${child.class_name}` : null,
                 child.city,
                 child.school_name,
               ]
