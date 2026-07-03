@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { formatCurrency, formatDate } from "@/lib/format";
 import DonationForm from "@/components/DonationForm";
@@ -57,10 +58,18 @@ export default async function DonationsPage() {
                       {formatCurrency(d.amount)}
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <DeleteButton
-                        action={deleteDonation.bind(null, d.id)}
-                        confirmText="Delete this donation?"
-                      />
+                      <div className="flex items-center justify-end gap-4">
+                        <Link
+                          href={`/admin/donations/${d.id}/edit`}
+                          className="text-sm font-medium text-blue-600 hover:text-blue-700"
+                        >
+                          Edit
+                        </Link>
+                        <DeleteButton
+                          action={deleteDonation.bind(null, d.id)}
+                          confirmText="Delete this donation?"
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}
