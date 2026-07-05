@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { formatCurrency, formatDate } from "@/lib/format";
-import PaymentForm from "@/components/PaymentForm";
+import AddPaymentButton from "@/components/AddPaymentButton";
 import DeleteButton from "@/components/DeleteButton";
 import { deletePayment } from "./actions";
 import type { Child, Payment } from "@/lib/types";
@@ -27,12 +27,10 @@ export default async function PaymentsPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-xl font-bold text-gray-900">Payments</h1>
-
-      <section className="rounded-lg border border-gray-200 bg-white p-5">
-        <h2 className="mb-4 text-base font-semibold text-gray-900">Log a payment</h2>
-        <PaymentForm children={children} />
-      </section>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-xl font-bold text-gray-900">Payments</h1>
+        <AddPaymentButton children={children} />
+      </div>
 
       <section>
         <h2 className="mb-3 text-base font-semibold text-gray-900">

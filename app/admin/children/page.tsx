@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { formatCurrency } from "@/lib/format";
-import ChildForm from "@/components/ChildForm";
+import AddChildButton from "@/components/AddChildButton";
 import DeleteButton from "@/components/DeleteButton";
-import { createChild, deleteChild } from "./actions";
+import { deleteChild } from "./actions";
 import type { Child } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -18,12 +18,10 @@ export default async function ChildrenPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-xl font-bold text-gray-900">Children</h1>
-
-      <section className="rounded-lg border border-gray-200 bg-white p-5">
-        <h2 className="mb-4 text-base font-semibold text-gray-900">Add a child</h2>
-        <ChildForm action={createChild} submitLabel="Add child" />
-      </section>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-xl font-bold text-gray-900">Children</h1>
+        <AddChildButton />
+      </div>
 
       <section>
         <h2 className="mb-3 text-base font-semibold text-gray-900">

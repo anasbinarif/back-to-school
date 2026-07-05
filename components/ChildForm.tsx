@@ -15,12 +15,14 @@ export default function ChildForm({
   submitLabel,
   showCancel = false,
   redirectTo,
+  onSuccess,
 }: {
   action: (formData: FormData) => Promise<ActionResult>;
   child?: Child;
   submitLabel: string;
   showCancel?: boolean;
   redirectTo?: string;
+  onSuccess?: () => void;
 }) {
   const router = useRouter();
   const toast = useToast();
@@ -36,6 +38,7 @@ export default function ChildForm({
         } else {
           formRef.current?.reset();
           router.refresh();
+          onSuccess?.();
         }
       } else {
         toast("error", res.message ?? "Something went wrong.");

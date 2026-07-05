@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { formatCurrency, formatDate } from "@/lib/format";
-import DonationForm from "@/components/DonationForm";
+import AddDonationButton from "@/components/AddDonationButton";
 import DeleteButton from "@/components/DeleteButton";
 import { deleteDonation } from "./actions";
 import type { Donation } from "@/lib/types";
@@ -18,12 +18,10 @@ export default async function DonationsPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-xl font-bold text-gray-900">Donations</h1>
-
-      <section className="rounded-lg border border-gray-200 bg-white p-5">
-        <h2 className="mb-4 text-base font-semibold text-gray-900">Log a donation</h2>
-        <DonationForm />
-      </section>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-xl font-bold text-gray-900">Donations</h1>
+        <AddDonationButton />
+      </div>
 
       <section>
         <h2 className="mb-3 text-base font-semibold text-gray-900">
