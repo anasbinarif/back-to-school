@@ -18,11 +18,13 @@ export default function DonationForm({
   action = createDonation,
   submitLabel = "Log donation",
   redirectTo,
+  onSuccess,
 }: {
   donation?: Donation;
   action?: (formData: FormData) => Promise<ActionResult>;
   submitLabel?: string;
   redirectTo?: string;
+  onSuccess?: () => void;
 }) {
   const router = useRouter();
   const toast = useToast();
@@ -39,6 +41,7 @@ export default function DonationForm({
         } else {
           formRef.current?.reset();
           router.refresh();
+          onSuccess?.();
         }
       } else {
         toast("error", res.message ?? "Something went wrong.");

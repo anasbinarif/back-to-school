@@ -19,12 +19,14 @@ export default function PaymentForm({
   action = createPayment,
   submitLabel = "Log payment",
   redirectTo,
+  onSuccess,
 }: {
   children: Child[];
   payment?: Payment;
   action?: (formData: FormData) => Promise<ActionResult>;
   submitLabel?: string;
   redirectTo?: string;
+  onSuccess?: () => void;
 }) {
   const router = useRouter();
   const toast = useToast();
@@ -46,6 +48,7 @@ export default function PaymentForm({
           // Reset the type back to default; router.refresh re-renders the log.
           setPaymentType("monthly_fee");
           router.refresh();
+          onSuccess?.();
         }
       } else {
         toast("error", res.message ?? "Something went wrong.");
