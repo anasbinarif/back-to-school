@@ -64,6 +64,12 @@ export default async function ChildrenPage() {
                     <td className="px-4 py-3 text-right">
                       <div className="flex items-center justify-end gap-4">
                         <Link
+                          href={`/admin/children/${c.id}`}
+                          className="text-sm font-medium text-gray-600 hover:text-gray-900"
+                        >
+                          View
+                        </Link>
+                        <Link
                           href={`/admin/children/${c.id}/edit`}
                           className="text-sm font-medium text-blue-600 hover:text-blue-700"
                         >
