@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { formatCurrency, formatDate, toNumber } from "@/lib/format";
+import AddPaymentButton from "@/components/AddPaymentButton";
 import type { Child, Payment } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -107,15 +108,18 @@ export default async function ChildDetailPage({
       </section>
 
       <section>
-        <div className="mb-3 flex items-center justify-between">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-base font-semibold text-gray-900">
             Payment history{" "}
             <span className="text-sm font-normal text-gray-400">({payments.length})</span>
           </h2>
-          <p className="text-sm text-gray-500">
-            Total spent:{" "}
-            <span className="font-semibold text-gray-900">{formatCurrency(totalSpent)}</span>
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-sm text-gray-500">
+              Total spent:{" "}
+              <span className="font-semibold text-gray-900">{formatCurrency(totalSpent)}</span>
+            </p>
+            <AddPaymentButton children={[child]} />
+          </div>
         </div>
 
         {payments.length === 0 ? (
