@@ -69,13 +69,14 @@ export default function ChildForm({
 
       <div>
         <label htmlFor="age" className="block text-sm font-medium text-gray-700">
-          Age
+          Age <span className="text-red-500">*</span>
         </label>
         <input
           id="age"
           name="age"
           type="number"
           min="0"
+          required
           defaultValue={child?.age ?? ""}
           className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
@@ -98,11 +99,12 @@ export default function ChildForm({
 
       <div>
         <label htmlFor="city" className="block text-sm font-medium text-gray-700">
-          City
+          City <span className="text-red-500">*</span>
         </label>
         <input
           id="city"
           name="city"
+          required
           defaultValue={child?.city ?? ""}
           className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
@@ -110,11 +112,12 @@ export default function ChildForm({
 
       <div>
         <label htmlFor="school_name" className="block text-sm font-medium text-gray-700">
-          School
+          School <span className="text-red-500">*</span>
         </label>
         <input
           id="school_name"
           name="school_name"
+          required
           defaultValue={child?.school_name ?? ""}
           className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
@@ -135,12 +138,13 @@ export default function ChildForm({
 
       <div>
         <label htmlFor="guardian_contact" className="block text-sm font-medium text-gray-700">
-          Guardian contact number
+          Guardian contact number <span className="text-red-500">*</span>
         </label>
         <input
           id="guardian_contact"
           name="guardian_contact"
           type="tel"
+          required
           placeholder="e.g. 03001234567"
           defaultValue={child?.guardian_contact ?? ""}
           className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -212,12 +216,13 @@ export default function ChildForm({
 
       <div className="sm:col-span-2">
         <label htmlFor="reason" className="block text-sm font-medium text-gray-700">
-          Reason they can&apos;t afford school
+          Reason they can&apos;t afford school <span className="text-red-500">*</span>
         </label>
         <textarea
           id="reason"
           name="reason"
           rows={3}
+          required
           defaultValue={child?.reason ?? ""}
           className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />

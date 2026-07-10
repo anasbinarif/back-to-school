@@ -31,9 +31,22 @@ function parseChild(formData: FormData) {
   };
 }
 
+// Server-side validation for the required fields. Returns an error message,
+// or null when the child is valid.
+function validateChild(child: ReturnType<typeof parseChild>): string | null {
+  if (!child.name) return "Name is required.";
+  if (child.age == null || Number.isNaN(child.age)) return "Age is required.";
+  if (!child.city) return "City is required.";
+  if (!child.school_name) return "School is required.";
+  if (!child.guardian_contact) return "Guardian contact number is required.";
+  if (!child.reason) return "Reason they can't afford school is required.";
+  return null;
+}
+
 export async function createChild(formData: FormData): Promise<ActionResult> {
   const child = parseChild(formData);
-  if (!child.name) return { ok: false, message: "Name is required." };
+  const invalid = validateChild(child);
+  if (invalid) return { ok: false, message: invalid };
 
   const supabase = createClient();
   const { error } = await supabase.from("children").insert(child);
@@ -49,7 +62,8 @@ export async function updateChild(
   formData: FormData
 ): Promise<ActionResult> {
   const child = parseChild(formData);
-  if (!child.name) return { ok: false, message: "Name is required." };
+  const invalid = validateChild(child);
+  if (invalid) return { ok: false, message: invalid };
 
   const supabase = createClient();
   const { error } = await supabase.from("children").update(child).eq("id", id);
