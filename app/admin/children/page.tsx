@@ -43,6 +43,7 @@ export default async function ChildrenPage() {
                   <th className="px-4 py-3 font-medium">School</th>
                   <th className="px-4 py-3 font-medium">Class</th>
                   <th className="px-4 py-3 font-medium">Guardian</th>
+                  <th className="px-4 py-3 font-medium">Responsible</th>
                   <th className="px-4 py-3 text-right font-medium">Monthly Fee</th>
                   <th className="px-4 py-3 text-right font-medium">Actions</th>
                 </tr>
@@ -56,6 +57,7 @@ export default async function ChildrenPage() {
                     <td className="px-4 py-3 text-gray-600">{c.school_name ?? "—"}</td>
                     <td className="px-4 py-3 text-gray-600">{c.class_name ?? "—"}</td>
                     <td className="px-4 py-3 text-gray-600">{c.guardian_contact ?? "—"}</td>
+                    <td className="px-4 py-3 text-gray-600">{c.responsible ?? "—"}</td>
                     <td className="px-4 py-3 text-right text-gray-900">
                       {formatCurrency(c.monthly_fee)}
                     </td>

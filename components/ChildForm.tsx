@@ -147,6 +147,19 @@ export default function ChildForm({
         />
       </div>
 
+      <div>
+        <label htmlFor="responsible" className="block text-sm font-medium text-gray-700">
+          Responsible
+        </label>
+        <input
+          id="responsible"
+          name="responsible"
+          placeholder="Person responsible for this child"
+          defaultValue={child?.responsible ?? ""}
+          className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        />
+      </div>
+
       <div className="sm:col-span-2">
         <p className="mt-2 text-sm font-medium text-gray-700">Estimated costs (PKR)</p>
         <p className="text-xs text-gray-400">One-off needs beyond the monthly fee.</p>

@@ -16,6 +16,7 @@ export interface Child {
   clothes_cost: number;
   transport_cost: number;
   guardian_contact: string | null;
+  responsible: string | null;
   notes: string | null;
   created_at: string;
 }

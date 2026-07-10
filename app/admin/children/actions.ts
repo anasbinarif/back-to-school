@@ -26,6 +26,7 @@ function parseChild(formData: FormData) {
     clothes_cost: num(formData, "clothes_cost"),
     transport_cost: num(formData, "transport_cost"),
     guardian_contact: text(formData, "guardian_contact"),
+    responsible: text(formData, "responsible"),
     notes: text(formData, "notes"),
   };
 }

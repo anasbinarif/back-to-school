@@ -71,6 +71,7 @@ export default async function ChildDetailPage({
           <Field label="City" value={child.city} />
           <Field label="School" value={child.school_name} />
           <Field label="Guardian contact" value={child.guardian_contact} />
+          <Field label="Responsible" value={child.responsible} />
           <Field label="Monthly fee" value={formatCurrency(child.monthly_fee)} />
           <Field label="Books cost" value={formatCurrency(child.books_cost)} />
           <Field label="Clothes cost" value={formatCurrency(child.clothes_cost)} />
