@@ -32,6 +32,7 @@ create table if not exists public.children (
   clothes_cost     numeric not null default 0,
   transport_cost   numeric not null default 0,
   guardian_contact text,          -- guardian phone number (admin-only)
+  responsible      text,          -- person responsible for this child (admin-only)
   notes            text,          -- internal admin notes (admin-only)
   created_at       timestamptz not null default now()
 );
